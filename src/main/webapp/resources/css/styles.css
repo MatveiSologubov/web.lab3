@@ -570,12 +570,12 @@ body {
     background-color: rgba(0, 255, 157, 0.05);
 }
 
-.data-table td.hit {
+.data-table .hit {
     color: var(--primary-accent);
     font-weight: 600;
 }
 
-.data-table td.miss {
+.data-table .miss {
     color: var(--error);
     font-weight: 600;
 }

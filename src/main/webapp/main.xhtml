@@ -132,13 +132,6 @@
                                                  styleClass="terminal-btn primary"
                                                  update="resultsTable, pointForm"
                                                  process="@form"/>
-
-                                <p:commandButton value="CLEAR"
-                                                 action="#{resultsBean.clearResults}"
-                                                 styleClass="terminal-btn secondary"
-                                                 update="resultsTable"
-                                                 immediate="true"
-                                                 style="margin-top: 1rem;"/>
                             </h:form>
                         </div>
                     </div>
@@ -148,49 +141,60 @@
                     <div class="panel">
                         <div class="panel-header">
                             <h2><i class="fas fa-database"></i>RESULTS</h2>
+                            <div class="panel-controls">
+                                <p:commandButton value="CLEAR"
+                                                 action="#{resultsBean.clearResults}"
+                                                 styleClass="terminal-btn secondary"
+                                                 update="resultsTable"
+                                                 immediate="true"/>
+                            </div>
                         </div>
                         <div class="panel-content">
                             <div class="data-table-container">
-                                <p:dataTable id="resultsTable"
+                                <h:dataTable id="resultsTable"
                                              value="#{resultsBean.results}"
                                              var="point"
-                                             emptyMessage="No data available"
                                              styleClass="data-table"
-                                             rows="5"
-                                             paginator="true"
-                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             rowsPerPageTemplate="5,10,20">
-                                    <p:column headerText="X">
+                                             rowClasses="odd-row, even-row">
+                                    <h:column>
+                                        <f:facet name="header">X</f:facet>
                                         <h:outputText value="#{point.x}">
                                             <f:convertNumber maxFractionDigits="2"/>
                                         </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Y">
-                                        <h:outputText value="#{point.y}"/>
-                                    </p:column>
-                                    <p:column headerText="R">
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Y</f:facet>
+                                        <h:outputText value="#{point.y}">
+                                            <f:convertNumber maxFractionDigits="2"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">R</f:facet>
                                         <h:outputText value="#{point.r}">
                                             <f:convertNumber maxFractionDigits="2"/>
                                         </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="RESULT">
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">RESULT</f:facet>
                                         <h:outputText value="#{point.hit ? 'HIT' : 'MISS'}"
                                                       styleClass="#{point.hit ? 'hit' : 'miss'}"/>
-                                    </p:column>
-                                    <p:column headerText="EXECUTION TIME">
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">EXECUTION TIME</f:facet>
                                         <h:outputText value="#{point.processTimeInMs}">
                                             <f:convertNumber maxFractionDigits="2"/>
                                         </h:outputText> ms
-                                    </p:column>
-                                    <p:column headerText="REQUEST TIME">
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">REQUEST TIME</f:facet>
                                         <h:outputText value="#{point.requestTime}"/>
-                                    </p:column>
-                                </p:dataTable>
+                                    </h:column>
+                                </h:dataTable>
                             </div>
                         </div>
                         <div class="panel-footer">
                             <h:link outcome="start" styleClass="terminal-btn secondary">
-                                <i class="fas fa-arrow-left"></i> BACK TO START PAGE
+                                BACK TO START PAGE
                             </h:link>
                         </div>
                     </div>
