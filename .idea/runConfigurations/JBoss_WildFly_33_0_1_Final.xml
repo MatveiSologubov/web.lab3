@@ -1,7 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="JBoss/WildFly 33.0.1.Final" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss/WildFly 33.0.1.Final" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="17" nameIsGenerated="true">
     <option name="OPEN_IN_BROWSER" value="false" />
-    <option name="UPDATING_POLICY" value="restart-server" />
+    <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
+    <option name="UPDATING_POLICY" value="redeploy-artifacts" />
     <deployment>
       <artifact name="Gradle : web-lab3.war">
         <settings />

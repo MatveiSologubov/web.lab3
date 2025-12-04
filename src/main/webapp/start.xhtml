@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:view>
+    <h:head>
+        <title>Area Check - Start Page</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap"
+              rel="stylesheet"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
+
+        <script>
+            window.pointsFromServer = [];
+        </script>
+    </h:head>
+
+    <h:body>
+        <header class="main-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <a href="https://github.com/MatveiSologubov/web.lab3" class="github-link" target="_blank">
+                        <i class="fab fa-github"></i> Source Code
+                    </a>
+                </div>
+                <div class="header-center">
+                    <div class="header-info">
+                        <span>#{startPageBean.studentId} | #{startPageBean.studentName} | #{startPageBean.groupNumber}</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="clock" id="current-time"></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="page-container">
+            <div class="panel" style="max-width: 800px; margin: 0 auto;">
+                <div class="panel-header">
+                    <h2><i class="fas fa-terminal"></i>LABORATORY WORK #3</h2>
+                </div>
+                <div class="panel-content" style="text-align: center; padding: 3rem;">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary-accent);">
+                            AREA CHECK APPLICATION
+                        </h1>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                            Student: #{startPageBean.studentName}
+                        </p>
+                        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                            Group: #{startPageBean.groupNumber} | Variant: #{startPageBean.variantNumber}
+                        </p>
+                        <p style="color: var(--text-tertiary); margin-top: 1rem;">
+                            JSF + PrimeFaces + WildFly
+                        </p>
+                    </div>
+
+
+                    <div style="margin-top: 3rem;">
+                        <h:link outcome="main" styleClass="terminal-btn primary"
+                                style="font-size: 1.1rem; padding: 1rem 2rem;">
+                            ENTER APPLICATION
+                        </h:link>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-center">
+                    <span class="copyright-info">No rights reserved.</span>
+                </div>
+            </div>
+        </footer>
+
+        <h:outputScript library="js" name="clock.js"/>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                initializeClock();
+            });
+        </script>
+    </h:body>
+</f:view>
+</html>
