@@ -1,54 +1,74 @@
 package ru.itmo.beans;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
+import ru.itmo.database.PointDAO;
 import ru.itmo.models.Point;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Named("resultsBean")
 @ApplicationScoped
 @SuppressWarnings("unused")
 public class ResultsBean {
-    private static final int MAX_HISTORY_SIZE = 100;
+    private static final Logger LOGGER = Logger.getLogger(ResultsBean.class.getName());
+    private static final int MAX_DISPLAY_POINTS = 100;
+
+    @Inject
+    private PointDAO pointDAO;
 
     @Getter
-    private final List<Point> results = new ArrayList<>();
+    private List<Point> results = new ArrayList<>();
+
+    @PostConstruct
+    public void init() {
+        loadResultsFromDatabase();
+    }
 
     public void addResult(Point point) {
-        if (results.size() >= MAX_HISTORY_SIZE) {
-            results.remove(0);
+        try {
+            pointDAO.save(point);
+            loadResultsFromDatabase();
+            LOGGER.fine("Added point to results: " + point);
+        } catch (Exception e) {
+            LOGGER.severe("Failed to save point to database: " + e.getMessage());
+
+            if (results.size() >= MAX_DISPLAY_POINTS) {
+                results.remove(0);
+            }
+            results.add(point);
         }
-        results.add(point);
     }
 
     public void clearResults() {
-        results.clear();
+        try {
+            pointDAO.deleteAll();
+            results.clear();
+            LOGGER.info("Cleared all results from database");
+        } catch (Exception e) {
+            LOGGER.severe("Failed to clear results from database: " + e.getMessage());
+            results.clear();
+        }
     }
 
+    // TODO: Change name to getResults
     public List<Point> getReversedResults() {
-        List<Point> reversed = new ArrayList<>(results);
-        java.util.Collections.reverse(reversed);
-        return reversed;
+        return results;
     }
 
-    public String getPointsAsJson() {
-        if (results.isEmpty()) {
-            return "[]";
+    private void loadResultsFromDatabase() {
+        try {
+            results = pointDAO.findLastN(MAX_DISPLAY_POINTS);
+            LOGGER.fine("Loaded " + results.size() + " points from database");
+        } catch (Exception e) {
+            LOGGER.severe("Failed to load results from database: " + e.getMessage());
+            results = Collections.emptyList();
         }
-
-        StringBuilder json = new StringBuilder("[");
-        for (int i = 0; i < results.size(); i++) {
-            Point point = results.get(i);
-            json.append(String.format("{\"x\":%.2f,\"y\":%d,\"r\":%.2f,\"isHit\":%b}",
-                    point.getX(), point.getY(), point.getR(), point.isHit()));
-            if (i < results.size() - 1) {
-                json.append(",");
-            }
-        }
-        json.append("]");
-        return json.toString();
     }
 }

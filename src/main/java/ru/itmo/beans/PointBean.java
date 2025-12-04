@@ -14,6 +14,13 @@ import java.time.format.DateTimeFormatter;
 @RequestScoped
 @SuppressWarnings("unused")
 public class PointBean {
+    private static final double MIN_X = -4.0;
+    private static final double MAX_X = 4.0;
+    private static final double MIN_Y = -3.0;
+    private static final double MAX_Y = 3.0;
+    private static final double MIN_R = 0.1;
+    private static final double MAX_R = 3.0;
+
 
     @Getter
     @Setter
@@ -21,7 +28,7 @@ public class PointBean {
 
     @Getter
     @Setter
-    private Integer y;
+    private Double y;
 
     @Getter
     @Setter
@@ -82,16 +89,16 @@ public class PointBean {
         requestTime = null;
     }
 
-    private boolean isValid(double x, int y, double r) {
-        if (x <= -4 || x >= 4) {
+    private boolean isValid(double x, double y, double r) {
+        if (x <= MIN_X || x >= MAX_X) {
             return false;
         }
 
-        if (y <= -3 || y >= 3) {
+        if (y <= MIN_Y || y >= MAX_Y) {
             return false;
         }
 
-        return !(r < 0.1) && !(r > 3);
+        return !(r <= MIN_R) && !(r >= MAX_R);
     }
 
     private boolean isHit(double x, double y, double r) {

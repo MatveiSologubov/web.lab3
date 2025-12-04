@@ -35,8 +35,6 @@ const GRAPH_HIT_GLOW = '#00cc7d';
 const GRAPH_MISS_GLOW = '#cc0000';
 const GRAPH_TEMP_GLOW = '#cc9900';
 
-const VALID_Y_VALUES = [-3, -2, -1, 0, 1, 2, 3, 4, 5];
-
 let displayPoint = null;
 let currentR = parseFloat(sessionStorage.getItem('currentR')) || 1;
 let offsetX = 0;
@@ -463,16 +461,12 @@ canvas.addEventListener('click', function (e) {
         window.updateXInput(actualX.toFixed(2));
     }
 
-    const closestY = VALID_Y_VALUES.reduce((prev, curr) => {
-        return Math.abs(curr - actualY) < Math.abs(prev - actualY) ? curr : prev;
-    });
-
     if (window.updateYInput) {
-        window.updateYInput(closestY);
+        window.updateYInput(actualY.toFixed(2));
     }
 
     displayPoint = {
-        x: actualX, y: closestY
+        x: actualX, y: actualY
     };
     scheduleRedraw();
 

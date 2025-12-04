@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed6da279-3d1a-4f05-979d-5a1164d62ea4/console.sql" value="ed6da279-3d1a-4f05-979d-5a1164d62ea4" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/ed6da279-3d1a-4f05-979d-5a1164d62ea4/console_1.sql" value="ed6da279-3d1a-4f05-979d-5a1164d62ea4" />
+    <file url="file://$PROJECT_DIR$/src/main/java/ru/itmo/database/PointDAO.java" value="ed6da279-3d1a-4f05-979d-5a1164d62ea4" />
+  </component>
+</project>
