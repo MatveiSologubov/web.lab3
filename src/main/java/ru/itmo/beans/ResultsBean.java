@@ -57,11 +57,6 @@ public class ResultsBean {
         }
     }
 
-    // TODO: Change name to getResults
-    public List<Point> getReversedResults() {
-        return results;
-    }
-
     private void loadResultsFromDatabase() {
         try {
             results = pointDAO.findLastN(MAX_DISPLAY_POINTS);
