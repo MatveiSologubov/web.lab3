@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly "jakarta.platform:jakarta.jakartaee-web-api:${jakartaVersion}"
+
+    implementation "org.primefaces:primefaces:${primefacesVersion}:jakarta"
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(project.javaVersion as int)
+    }
+}
+
+war {
+    archiveFileName = 'web-lab3.war'
+    from 'src/main/webapp'
+}
+
+application {
+    mainClass = 'com.example.Main'
+}
