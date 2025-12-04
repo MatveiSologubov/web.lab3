@@ -4,9 +4,6 @@ const STORAGE_KEYS = {
     CURRENT_R: 'currentR',
     X_VALUE: 'xValue',
     Y_VALUE: 'yValue',
-    NO_REDIRECT: 'noRedirect',
-    AUTO_SUBMIT: 'autoSubmit',
-    SETTINGS_VISIBLE: 'settingsVisible'
 };
 
 const MIN_X_VALUE = -3;
@@ -33,30 +30,6 @@ function loadSettings() {
         const yRadio = document.querySelector(`input[name="y"][value="${savedY}"]`);
         if (yRadio) {
             yRadio.checked = true;
-        }
-    }
-
-    const savedNoRedirect = sessionStorage.getItem(STORAGE_KEYS.NO_REDIRECT);
-    if (savedNoRedirect && noRedirectCheckbox) {
-        noRedirectCheckbox.checked = savedNoRedirect === 'true';
-    }
-
-    const savedAutoSubmit = sessionStorage.getItem(STORAGE_KEYS.AUTO_SUBMIT);
-    if (savedAutoSubmit && autoSubmitCheckbox) {
-        autoSubmitCheckbox.checked = savedAutoSubmit === 'true';
-    }
-
-    const settingsVisible = sessionStorage.getItem(STORAGE_KEYS.SETTINGS_VISIBLE);
-    updateSettingsPanelVisibility(settingsVisible === 'true');
-}
-
-function updateSettingsPanelVisibility(isVisible) {
-    if (settingsPanel) {
-        settingsPanel.style.display = isVisible ? 'block' : 'none';
-
-        const icon = settingsToggle?.querySelector('i');
-        if (icon) {
-            icon.className = isVisible ? 'fas fa-times' : 'fas fa-cog';
         }
     }
 }
@@ -106,6 +79,7 @@ function validateXInput(value) {
     const numValue = parseFloat(value);
     const outOfBounds = isNaN(numValue) || numValue < MIN_X_VALUE || numValue > MAX_X_VALUE;
 
+    // TODO: Fix validation error
     if (errorElement) {
         if (outOfBounds) {
             errorElement.style.display = 'flex';
@@ -150,17 +124,12 @@ function handleXInputBlur(e) {
 
 document.addEventListener('DOMContentLoaded', function () {
     const rSelect = document.getElementById('r-select');
-    const settingsToggle = document.getElementById('settings-toggle');
-    const settingsPanel = document.getElementById('settings-panel');
     const xInput = document.getElementById('x-input');
-    const noRedirectCheckbox = document.getElementById("no-redirect");
-    const autoSubmitCheckbox = document.getElementById("auto-submit");
     const yRadioGroup = document.getElementById("y-radio-group");
 
     window.xInput = xInput;
     window.yRadioGroup = yRadioGroup;
     window.rSelect = rSelect;
-    window.autoSubmitCheckbox = autoSubmitCheckbox;
 
     loadSettings();
 
@@ -183,16 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (settingsToggle && settingsPanel) {
-        settingsToggle.addEventListener('click', function () {
-            const isVisible = settingsPanel.style.display !== 'none';
-            const newVisibility = !isVisible;
-
-            updateSettingsPanelVisibility(newVisibility);
-            sessionStorage.setItem(STORAGE_KEYS.SETTINGS_VISIBLE, newVisibility.toString());
-        });
-    }
-
     if (xInput) {
         xInput.addEventListener('input', function () {
             sessionStorage.setItem(STORAGE_KEYS.X_VALUE, xInput.value);
@@ -212,18 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.target.name === 'y') {
                 sessionStorage.setItem(STORAGE_KEYS.Y_VALUE, e.target.value);
             }
-        });
-    }
-
-    if (noRedirectCheckbox) {
-        noRedirectCheckbox.addEventListener('change', function () {
-            sessionStorage.setItem(STORAGE_KEYS.NO_REDIRECT, this.checked.toString());
-        });
-    }
-
-    if (autoSubmitCheckbox) {
-        autoSubmitCheckbox.addEventListener('change', function () {
-            sessionStorage.setItem(STORAGE_KEYS.AUTO_SUBMIT, this.checked.toString());
         });
     }
 });
