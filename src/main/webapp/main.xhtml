@@ -4,6 +4,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
 >
 
 <f:view>
@@ -194,14 +195,24 @@
             </div>
         </footer>
 
+        <h:outputScript>
+            window.pointsData = [];
+
+            <c:forEach items="#{resultsBean.results}" var="point">
+                window.pointsData.push({
+                x: #{point.x},
+                y: #{point.y},
+                r: #{point.r},
+                isHit: #{point.hit},
+                requestTime: "#{point.requestTime}",
+                processTimeInMs: #{point.processTimeInMs}
+                });
+            </c:forEach>
+        </h:outputScript>
+
         <h:outputScript library="js" name="clock.js"/>
         <h:outputScript library="js" name="graph.js"/>
-        <h:outputScript library="js" name="index.js"/>
         <h:outputScript library="js" name="init.js"/>
-
-        <script>
-            window.pointsFromServer = [];
-        </script>
     </h:body>
 </f:view>
 </html>

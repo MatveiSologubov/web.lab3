@@ -49,7 +49,6 @@ let redrawScheduled = false;
 let xInput = null;
 let yRadioGroup = null;
 let rSelect = null;
-let autoSubmitCheckbox = null;
 
 function graphToCanvas(graphX, graphY) {
     const pixelX = CANVAS_CENTER_X + ((graphX - offsetX) / currentR) * BASE_GRAPH_RADIUS * scale;
@@ -272,11 +271,11 @@ function drawAxesWithOffset(rValue) {
 }
 
 function drawAllPoints() {
-    if (!window.pointsFromServer || window.pointsFromServer.length === 0) {
+    if (!window.pointsData || window.pointsData.length === 0) {
         return;
     }
 
-    window.pointsFromServer.forEach(point => {
+    window.pointsData.forEach(point => {
         const coords = graphToCanvas(point.x, point.y);
         const isHit = point.isHit;
 
@@ -457,23 +456,16 @@ canvas.addEventListener('click', function (e) {
     const actualX = graphCoords.x;
     const actualY = graphCoords.y;
 
-    if (window.updateXInput) {
-        window.updateXInput(actualX.toFixed(2));
-    }
-
-    if (window.updateYInput) {
-        window.updateYInput(actualY.toFixed(2));
-    }
+    // TODO: Save inputs
 
     displayPoint = {
         x: actualX, y: actualY
     };
     scheduleRedraw();
 
-    if (autoSubmitCheckbox && autoSubmitCheckbox.checked) {
-        if (window.triggerSubmit) {
-            window.triggerSubmit();
-        }
+    // TODO: Fix auto-submit
+    if (window.triggerSubmit) {
+        window.triggerSubmit();
     }
 });
 

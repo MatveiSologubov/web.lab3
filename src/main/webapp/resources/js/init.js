@@ -1,11 +1,5 @@
 "use strict";
 
-function initializePoints() {
-    if (!window.pointsFromServer) {
-        window.pointsFromServer = [];
-    }
-}
-
 window.triggerSubmit = function () {
     const submitButton = document.querySelector('button[id$="submitButton"]');
     if (submitButton) {
@@ -18,8 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (rValue) {
         sessionStorage.setItem('currentR', rValue.toString());
     }
-
-    initializePoints();
 
     if (typeof initializeClock === 'function') {
         initializeClock();
