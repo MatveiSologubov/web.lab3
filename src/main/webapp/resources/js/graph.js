@@ -456,14 +456,36 @@ canvas.addEventListener('click', function (e) {
     const actualX = graphCoords.x;
     const actualY = graphCoords.y;
 
-    // TODO: Save inputs
+    const roundedX = Math.round(actualX * 2) / 2;
+    const roundedY = Math.round(actualY * 100) / 100;
+
+    const xSpinnerInput = document.querySelector('input[id*="xSpinner_input"]');
+    if (xSpinnerInput) {
+        xSpinnerInput.value = roundedX;
+
+        const event = new Event('change', { bubbles: true });
+        xSpinnerInput.dispatchEvent(event);
+
+        const inputEvent = new Event('input', { bubbles: true });
+        xSpinnerInput.dispatchEvent(inputEvent);
+    }
+
+    const yInput = document.querySelector('input[id*="yInput"]');
+    if (yInput) {
+        yInput.value = roundedY;
+
+        const event = new Event('change', { bubbles: true });
+        yInput.dispatchEvent(event);
+
+        const inputEvent = new Event('input', { bubbles: true });
+        yInput.dispatchEvent(inputEvent);
+    }
 
     displayPoint = {
         x: actualX, y: actualY
     };
     scheduleRedraw();
 
-    // TODO: Fix auto-submit
     if (window.triggerSubmit) {
         window.triggerSubmit();
     }

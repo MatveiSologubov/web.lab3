@@ -116,7 +116,8 @@
                                                  action="#{pointBean.checkPoint}"
                                                  styleClass="terminal-btn primary"
                                                  update="resultsTable, pointForm"
-                                                 process="@form"/>
+                                                 process="@form"
+                                                 oncomplete="if(window.updatePointsData) window.updatePointsData();"/>
                             </h:form>
                         </div>
                     </div>
