@@ -12,11 +12,12 @@ const STORAGE_KEYS = {
     Y_VALUE: 'yValue',
 };
 
-const table = document.getElementById('resultsTable');
-const xSpinnerInput = document.querySelector('input[id*="xSpinner_input"]');
-const yInput = document.querySelector('input[id*="yInput"]');
-
 function updatePointsData() {
+    const table = document.getElementById('resultsTable');
+    if (!table) {
+        return;
+    }
+
     window.pointsData = [];
 
     const rows = table.querySelectorAll('tbody tr, tr:not(.ui-datatable-header)');
@@ -44,6 +45,31 @@ function updatePointsData() {
     scheduleRedraw();
 }
 
+function setXValue(value) {
+    const xInput = document.querySelector('[id$=":xSpinner_input"]');
+    if (xInput) {
+        xInput.value = value;
+        xInput.dispatchEvent(new Event('change', {bubbles: true}));
+    }
+}
+
+function setYValue(value) {
+    const yInput = document.querySelector('[id$=":yInput"]');
+    if (yInput) {
+        yInput.value = value;
+        yInput.dispatchEvent(new Event('input'));
+        yInput.dispatchEvent(new Event('change', {bubbles: true}));
+    }
+}
+
+function setRValue(value) {
+    const rInput = document.querySelector('[id$=":rSpinner_input"]');
+    if (rInput) {
+        rInput.value = value;
+        rInput.dispatchEvent(new Event('change', {bubbles: true}));
+    }
+}
+
 function valuesOutOfBounds(xValue, yValue) {
     if (xValue > MAX_X || xValue < MIN_X) {
         return true;
@@ -53,33 +79,14 @@ function valuesOutOfBounds(xValue, yValue) {
 }
 
 function submitForm(actualX, actualY) {
-    console.log(actualX, actualY);
+    const formattedX = parseFloat(actualX).toFixed(2);
+    const formattedY = parseFloat(actualY).toFixed(2);
 
-    // TODO: Fix that abomination
-    const roundedX = Math.round(actualX * 2) / 2;
-    const roundedY = Math.round(actualY * 100) / 100;
+    // TODO: Round to step size
+    setXValue(formattedX);
+    setYValue(formattedY);
 
-    if (xSpinnerInput) {
-        xSpinnerInput.value = roundedX;
-
-        const event = new Event('change', {bubbles: true});
-        xSpinnerInput.dispatchEvent(event);
-
-        const inputEvent = new Event('input', {bubbles: true});
-        xSpinnerInput.dispatchEvent(inputEvent);
-    }
-
-    if (yInput) {
-        yInput.value = roundedY;
-
-        const event = new Event('change', {bubbles: true});
-        yInput.dispatchEvent(event);
-
-        const inputEvent = new Event('input', {bubbles: true});
-        yInput.dispatchEvent(inputEvent);
-    }
-
-    if (valuesOutOfBounds(actualX, actualY)) {
+    if (valuesOutOfBounds(formattedX, formattedY)) {
         return;
     }
 
@@ -154,4 +161,14 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeClock();
 
     updatePointsData();
+
+    currentR = sessionStorage.getItem(STORAGE_KEYS.CURRENT_R) || 1;
+    setRValue(currentR);
+
+    let xValue = sessionStorage.getItem(STORAGE_KEYS.X_VALUE) || 1;
+    setXValue(xValue);
+
+    let yValue = sessionStorage.getItem(STORAGE_KEYS.Y_VALUE) || 1;
+    setYValue(yValue);
 });
+
