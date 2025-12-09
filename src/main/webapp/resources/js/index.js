@@ -4,6 +4,7 @@ const MAX_X = 4;
 const MIN_X = -4;
 const MAX_Y = 3;
 const MIN_Y = -3;
+const INPUT_MAX_LENGTH = 13;
 
 const STORAGE_KEYS = {
     CURRENT_R: 'currentR',
@@ -104,6 +105,49 @@ function handleRChange(value) {
     sessionStorage.setItem(STORAGE_KEYS.CURRENT_R, value);
 
     scheduleRedraw();
+}
+
+function formatTextInput(text) {
+    let value = text.replace(/,/g, '.');
+
+    value = value.replace(/[^\d.-]/g, '');
+
+    if (value.includes('-')) {
+        if (!value.startsWith('-')) {
+            value = value.replace(/-/g, '');
+        }
+
+        const minusCount = (value.match(/-/g) || []).length;
+        if (minusCount > 1) {
+            value = '-' + value.replace(/-/g, '');
+        }
+    }
+
+    const dotCount = (value.match(/\./g) || []).length;
+    if (dotCount > 1) {
+        const firstDotIndex = value.indexOf('.');
+
+        const beforeFirstDot = value.substring(0, firstDotIndex + 1);
+        const afterFirstDot = value.substring(firstDotIndex + 1);
+
+        value = beforeFirstDot + afterFirstDot.replace(/\./g, '');
+    }
+
+    if (value.startsWith('.')) {
+        value = '0' + value;
+    } else if (value.startsWith('-.')) {
+        value = '-0' + value.substring(1);
+    }
+
+    if (value.length > INPUT_MAX_LENGTH) {
+        value = value.slice(0, INPUT_MAX_LENGTH);
+    }
+
+    return value;
+}
+
+function validateInput(input) {
+    input.value = formatTextInput(input.value);
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -95,6 +95,8 @@
                                     <p:inputText id="yInput" value="#{pointBean.y}"
                                                  styleClass="terminal-input"
                                                  placeholder="Enter Y value [-3; 3]"
+                                                 oninput="validateInput(this)"
+                                                 onkeyup="validateInput(this)"
                                                  onchange="handleYChange(this.value)">
                                         <f:validateDoubleRange minimum="-3" maximum="3"/>
                                         <p:ajax event="change" update="yError"/>
