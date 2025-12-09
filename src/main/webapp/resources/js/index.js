@@ -1,5 +1,10 @@
 "use strict";
 
+const MAX_X = 4;
+const MIN_X = -4;
+const MAX_Y = 3;
+const MIN_Y = -3;
+
 function updatePointsData() {
     const table = document.getElementById('resultsTable');
     if (!table) return;
@@ -33,7 +38,14 @@ function updatePointsData() {
     scheduleRedraw();
 }
 
-// TODO: Fix function. It does not work.
+function valuesOutOfBounds(xValue, yValue) {
+    if (xValue > MAX_X || xValue < MIN_X) {
+        return true;
+    }
+
+    return yValue > MAX_Y || yValue < MIN_Y;
+}
+
 function submitForm(actualX, actualY) {
     console.log(actualX, actualY);
 
@@ -62,6 +74,12 @@ function submitForm(actualX, actualY) {
         const inputEvent = new Event('input', {bubbles: true});
         yInput.dispatchEvent(inputEvent);
     }
+
+    if (valuesOutOfBounds(actualX, actualY)) {
+        return;
+    }
+
+    displayPoint = null;
 
     const submitButton = document.querySelector('button[id$="submitButton"]');
     if (submitButton) {
