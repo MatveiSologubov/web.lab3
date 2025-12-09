@@ -22,12 +22,6 @@ public class PointDAO {
             VALUES (?, ?, ?, ?, ?, ?)
             """;
 
-    private static final String SELECT_ALL_SQL = """
-            SELECT x, y, r, hit, process_time_ms, request_time
-            FROM points
-            ORDER BY created_at DESC, id DESC
-            """;
-
     private static final String SELECT_LIMITED_SQL = """
             SELECT x, y, r, hit, process_time_ms, request_time
             FROM points
@@ -36,8 +30,6 @@ public class PointDAO {
             """;
 
     private static final String DELETE_ALL_SQL = "DELETE FROM points";
-
-    private static final String COUNT_SQL = "SELECT COUNT(*) FROM points";
 
     public void save(Point point) {
         try (Connection connection = DatabaseManager.getInstance().getConnection();
@@ -61,19 +53,6 @@ public class PointDAO {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Failed to save point", e);
             throw new RuntimeException("Database save failed", e);
-        }
-    }
-
-    public List<Point> findAll() {
-        try (Connection connection = DatabaseManager.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SQL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            return mapResultSetToPoints(resultSet);
-
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Failed to fetch points", e);
-            throw new RuntimeException("Database query failed", e);
         }
     }
 
@@ -103,22 +82,6 @@ public class PointDAO {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Failed to delete points", e);
             throw new RuntimeException("Database delete failed", e);
-        }
-    }
-
-    public int count() {
-        try (Connection connection = DatabaseManager.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(COUNT_SQL)) {
-
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-            return 0;
-
-        } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "Failed to count points", e);
-            throw new RuntimeException("Database count failed", e);
         }
     }
 

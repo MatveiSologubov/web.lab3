@@ -32,7 +32,7 @@ public class PointBean {
 
     @Getter
     @Setter
-    private Double r = 1.0;
+    private Double r;
 
     @Getter
     @Setter
@@ -78,15 +78,6 @@ public class PointBean {
             processTimeInMs = 0f;
             requestTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
-    }
-
-    public void reset() {
-        x = null;
-        y = null;
-        r = 1.0;
-        hit = null;
-        processTimeInMs = null;
-        requestTime = null;
     }
 
     private boolean isValid(double x, double y, double r) {

@@ -22,8 +22,4 @@ public class DatabaseInitializer implements ServletContextListener {
             LOGGER.severe("Failed to initialize database schema: " + e.getMessage());
         }
     }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-    }
 }
