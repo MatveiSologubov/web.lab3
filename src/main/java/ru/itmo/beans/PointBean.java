@@ -9,11 +9,14 @@ import ru.itmo.models.Point;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
 @Named("pointBean")
 @RequestScoped
 @SuppressWarnings("unused")
 public class PointBean {
+    private static final Logger LOGGER = Logger.getLogger(PointBean.class.getName());
+
     private static final double MIN_X = -4.0;
     private static final double MAX_X = 4.0;
     private static final double MIN_Y = -3.0;
@@ -81,15 +84,15 @@ public class PointBean {
     }
 
     private boolean isValid(double x, double y, double r) {
-        if (x <= MIN_X || x >= MAX_X) {
+        if (x < MIN_X || x > MAX_X) {
             return false;
         }
 
-        if (y <= MIN_Y || y >= MAX_Y) {
+        if (y < MIN_Y || y > MAX_Y) {
             return false;
         }
 
-        return !(r <= MIN_R) && !(r >= MAX_R);
+        return !(r < MIN_R) && !(r > MAX_R);
     }
 
     private boolean isHit(double x, double y, double r) {
