@@ -101,11 +101,11 @@ public class PointBean {
             return false;
         }
 
-        boolean inQuarterCircle = (x <= 0 && y <= 0 && (x * x + y * y <= r * r));
+        boolean inQuarterCircle = (x <= 0 && y >= 0 && (x * x + y * y <= r / 2 * r / 2));
 
-        boolean inSquare = (x >= 0 && y >= 0 && x <= r && y <= r);
+        boolean inSquare = (x <= 0 && y <= 0 && -x <= r && -y <= r);
 
-        boolean inTriangle = (x >= 0 && y <= 0 && x - y <= r);
+        boolean inTriangle = (x >= 0 && y >= 0 && (y <= (-0.5 * x + r / 2)));
 
         return inQuarterCircle || inSquare || inTriangle;
     }

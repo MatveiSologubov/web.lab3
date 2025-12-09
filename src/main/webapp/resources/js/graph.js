@@ -334,21 +334,21 @@ function drawGraph(rValue) {
 
     context.beginPath();
     context.moveTo(origin.x, origin.y);
-    context.arc(origin.x, origin.y, BASE_GRAPH_RADIUS * scale, Math.PI / 2, Math.PI, false);
+    context.arc(origin.x, origin.y, BASE_GRAPH_RADIUS * scale / 2, Math.PI, Math.PI * 1.5, false);
     context.lineTo(origin.x, origin.y);
     context.fill();
 
-    const squareTopRight = graphToCanvas(rValue, rValue);
+    const squareBottomLeft = graphToCanvas(-rValue, -rValue);
     context.beginPath();
-    context.rect(origin.x, origin.y, squareTopRight.x - origin.x, squareTopRight.y - origin.y);
+    context.rect(origin.x, origin.y, squareBottomLeft.x - origin.x, squareBottomLeft.y - origin.y);
     context.fill();
 
-    const triangleRight = graphToCanvas(rValue / 2, 0);
-    const triangleBottom = graphToCanvas(0, -rValue / 2);
+    const triangleRight = graphToCanvas(rValue, 0);
+    const triangleTop = graphToCanvas(0, rValue / 2);
     context.beginPath();
     context.moveTo(origin.x, origin.y);
     context.lineTo(triangleRight.x, triangleRight.y);
-    context.lineTo(triangleBottom.x, triangleBottom.y);
+    context.lineTo(triangleTop.x, triangleTop.y);
     context.closePath();
     context.fill();
 
