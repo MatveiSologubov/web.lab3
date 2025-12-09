@@ -5,10 +5,17 @@ const MIN_X = -4;
 const MAX_Y = 3;
 const MIN_Y = -3;
 
-function updatePointsData() {
-    const table = document.getElementById('resultsTable');
-    if (!table) return;
+const STORAGE_KEYS = {
+    CURRENT_R: 'currentR',
+    X_VALUE: 'xValue',
+    Y_VALUE: 'yValue',
+};
 
+const table = document.getElementById('resultsTable');
+const xSpinnerInput = document.querySelector('input[id*="xSpinner_input"]');
+const yInput = document.querySelector('input[id*="yInput"]');
+
+function updatePointsData() {
     window.pointsData = [];
 
     const rows = table.querySelectorAll('tbody tr, tr:not(.ui-datatable-header)');
@@ -33,8 +40,6 @@ function updatePointsData() {
         }
     });
 
-    // TODO: Don't access session storage every time
-    currentR = parseFloat(sessionStorage.getItem('currentR')) || 1;
     scheduleRedraw();
 }
 
@@ -53,7 +58,6 @@ function submitForm(actualX, actualY) {
     const roundedX = Math.round(actualX * 2) / 2;
     const roundedY = Math.round(actualY * 100) / 100;
 
-    const xSpinnerInput = document.querySelector('input[id*="xSpinner_input"]');
     if (xSpinnerInput) {
         xSpinnerInput.value = roundedX;
 
@@ -64,7 +68,6 @@ function submitForm(actualX, actualY) {
         xSpinnerInput.dispatchEvent(inputEvent);
     }
 
-    const yInput = document.querySelector('input[id*="yInput"]');
     if (yInput) {
         yInput.value = roundedY;
 
@@ -87,10 +90,18 @@ function submitForm(actualX, actualY) {
     }
 }
 
+function handleXChange(value) {
+    sessionStorage.setItem(STORAGE_KEYS.X_VALUE, value);
+}
+
+function handleYChange(value) {
+    sessionStorage.setItem(STORAGE_KEYS.Y_VALUE, value);
+}
+
 function handleRChange(value) {
     currentR = parseFloat(value);
 
-    sessionStorage.setItem('currentR', value);
+    sessionStorage.setItem(STORAGE_KEYS.CURRENT_R, value);
 
     scheduleRedraw();
 }

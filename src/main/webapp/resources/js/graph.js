@@ -36,7 +36,7 @@ const GRAPH_MISS_GLOW = '#cc0000';
 const GRAPH_TEMP_GLOW = '#cc9900';
 
 let displayPoint = null;
-let currentR = parseFloat(sessionStorage.getItem('currentR')) || 1;
+let currentR = parseFloat(sessionStorage.getItem(STORAGE_KEYS.CURRENT_R)) || 1;
 let offsetX = 0;
 let offsetY = 0;
 let isDragging = false;
