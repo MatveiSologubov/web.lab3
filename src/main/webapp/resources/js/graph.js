@@ -24,6 +24,11 @@ const TICK_LABEL_OFFSET = 22;
 const ARROW_SIZE = 6;
 const ORIGIN_LABEL_OFFSET = 10;
 
+const X_MIN_VALUE = -4;
+const X_MAX_VALUE = 4;
+const Y_MIN_VALUE = -3;
+const Y_MAX_VALUE = 3;
+
 const GRAPH_PRIMARY = '#00ff9d';
 const GRAPH_BACKGROUND = '#0a0f1c';
 const GRAPH_AXES = '#00ff9d';
@@ -34,6 +39,8 @@ const GRAPH_TEMP = '#ffcc00';
 const GRAPH_HIT_GLOW = '#00cc7d';
 const GRAPH_MISS_GLOW = '#cc0000';
 const GRAPH_TEMP_GLOW = '#cc9900';
+const VALID_AREA_COLOR = '#00ff9d0a';
+const VALID_AREA_BORDER = '#00ff9d1a';
 
 let displayPoint = null;
 let currentR = parseFloat(sessionStorage.getItem(STORAGE_KEYS.CURRENT_R)) || 1;
@@ -156,6 +163,28 @@ function drawGrid(rValue) {
     }
 
     context.setLineDash([]);
+}
+
+function drawValidArea() {
+    const topLeft = graphToCanvas(X_MIN_VALUE, Y_MAX_VALUE);
+    const bottomRight = graphToCanvas(X_MAX_VALUE, Y_MIN_VALUE);
+
+    context.fillStyle = VALID_AREA_COLOR;
+    context.fillRect(
+        topLeft.x,
+        topLeft.y,
+        bottomRight.x - topLeft.x,
+        bottomRight.y - topLeft.y
+    );
+
+    context.strokeStyle = VALID_AREA_BORDER;
+    context.lineWidth = 1;
+    context.strokeRect(
+        topLeft.x,
+        topLeft.y,
+        bottomRight.x - topLeft.x,
+        bottomRight.y - topLeft.y
+    );
 }
 
 function drawAxesWithOffset(rValue) {
@@ -325,6 +354,8 @@ function drawDisplayPoint() {
 function drawGraph(rValue) {
     context.fillStyle = GRAPH_BACKGROUND;
     context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    drawValidArea();
 
     drawGrid(rValue);
 
