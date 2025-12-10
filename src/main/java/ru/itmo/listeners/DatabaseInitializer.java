@@ -18,7 +18,6 @@ public class DatabaseInitializer implements ServletContextListener {
             DatabaseManager.getInstance().initializeSchema();
             LOGGER.info("Database schema initialized successfully");
         } catch (Exception e) {
-            // TODO: Fix database error handling
             LOGGER.severe("Failed to initialize database schema: " + e.getMessage());
         }
     }
