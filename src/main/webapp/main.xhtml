@@ -72,7 +72,7 @@
                         <div class="panel-content control-content">
                             <h:form id="pointForm">
                                 <div class="input-group">
-                                    <label for="x-input" class="input-label">
+                                    <label for="xSpinner" class="input-label">
                                         X COORDINATE
                                     </label>
                                     <p:spinner id="xSpinner" value="#{pointBean.x}"
@@ -89,7 +89,7 @@
                                 </div>
 
                                 <div class="input-group">
-                                    <label class="input-label">
+                                    <label for="yInput" class="input-label">
                                         Y COORDINATE
                                     </label>
                                     <p:inputText id="yInput" value="#{pointBean.y}"
@@ -98,14 +98,16 @@
                                                  oninput="validateInput(this)"
                                                  onkeyup="validateInput(this)"
                                                  onchange="handleYChange(this.value)">
-                                        <f:validateDoubleRange minimum="-3" maximum="3"/>
                                         <p:ajax event="change" update="yError"/>
                                     </p:inputText>
-                                    <p:message for="yInput" display="text" styleClass="error-message" id="yError"/>
+                                    <p:outputPanel id="yError" styleClass="error-message"
+                                                   style="display: #{pointBean.y lt -3 or pointBean.y gt 3 ? 'flex' : 'none'};">
+                                        <i class="fas fa-times-circle"></i> Y must be between -3 and 3
+                                    </p:outputPanel>
                                 </div>
 
                                 <div class="input-group">
-                                    <label for="r-select" class="input-label">
+                                    <label for="rSpinner" class="input-label">
                                         RADIUS
                                     </label>
                                     <p:spinner id="rSpinner" value="#{pointBean.r}"
