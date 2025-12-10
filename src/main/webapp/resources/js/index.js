@@ -5,6 +5,7 @@ const MIN_X = -4;
 const MAX_Y = 3;
 const MIN_Y = -3;
 const INPUT_MAX_LENGTH = 13;
+const X_STEP_SIZE = 0.5;
 
 const STORAGE_KEYS = {
     CURRENT_R: 'currentR',
@@ -79,10 +80,9 @@ function valuesOutOfBounds(xValue, yValue) {
 }
 
 function submitForm(actualX, actualY) {
-    const formattedX = parseFloat(actualX).toFixed(2);
+    const formattedX = Math.round(parseFloat(actualX) / X_STEP_SIZE) * X_STEP_SIZE;
     const formattedY = parseFloat(actualY).toFixed(2);
 
-    // TODO: Round to step size
     setXValue(formattedX);
     setYValue(formattedY);
 
