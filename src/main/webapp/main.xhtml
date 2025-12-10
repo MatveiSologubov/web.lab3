@@ -136,7 +136,8 @@
                                                  action="#{resultsBean.clearResults}"
                                                  styleClass="terminal-btn secondary"
                                                  update="resultsTable"
-                                                 immediate="true"/>
+                                                 immediate="true"
+                                                 oncomplete="if (window.updatePointsData) window.updatePointsData();"/>
                             </div>
                         </div>
                         <div class="panel-content">
