@@ -15,8 +15,5 @@ public class StartPageBean {
     private final String groupNumber = "P3232";
 
     @Getter
-    private final String variantNumber = "12354";
-
-    @Getter
-    private final String studentId = "36589";
+    private final String variantNumber = "36589";
 }
