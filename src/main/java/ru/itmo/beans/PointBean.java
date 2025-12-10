@@ -26,6 +26,12 @@ public class PointBean {
     private static final double MIN_R = 0.1;
     private static final double MAX_R = 3.0;
 
+    private static final double TRIANGLE_SLOPE = -0.5;
+    private static final double QUARTER_CIRCLE_RADIUS_FACTOR = 0.5;
+    private static final double TRIANGLE_INTERCEPT_FACTOR = 0.5;
+
+    private static final long NANOSECONDS_IN_MILLISECOND = 1_000_000L;
+    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Getter
     @Setter
@@ -72,10 +78,10 @@ public class PointBean {
             hit = isHit(x, y, r);
 
             Instant processEndTime = Instant.now();
-            long processTime = ChronoUnit.NANOS.between(startTime, processEndTime);
-            float processTimeInMs = processTime / 1_000_000f;
+            long processTimeNanos = ChronoUnit.NANOS.between(startTime, processEndTime);
+            processTimeInMs = (float) processTimeNanos / NANOSECONDS_IN_MILLISECOND;
 
-            requestTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            requestTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
 
             Point point = new Point(x, y, r, hit, processTimeInMs, requestTime);
             resultsBean.addResult(point);
@@ -83,7 +89,8 @@ public class PointBean {
         } catch (Exception e) {
             hit = false;
             processTimeInMs = 0f;
-            requestTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            requestTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
+            LOGGER.warning("Error checking point: " + e.getMessage());
         }
     }
 
@@ -105,11 +112,11 @@ public class PointBean {
             return false;
         }
 
-        boolean inQuarterCircle = (x <= 0 && y >= 0 && (x * x + y * y <= r / 2 * r / 2));
+        boolean inQuarterCircle = (x <= 0 && y >= 0 && (x * x + y * y <= r * 0.5 * r * 0.5));
 
         boolean inSquare = (x <= 0 && y <= 0 && -x <= r && -y <= r);
 
-        boolean inTriangle = (x >= 0 && y >= 0 && (y <= (-0.5 * x + r / 2)));
+        boolean inTriangle = (x >= 0 && y >= 0 && (y <= (-0.5 * x + r * 0.5)));
 
         return inQuarterCircle || inSquare || inTriangle;
     }

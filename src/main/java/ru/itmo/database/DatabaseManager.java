@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class DatabaseManager {
     private static final Logger LOGGER = Logger.getLogger(DatabaseManager.class.getName());
     private static final String PROPERTIES_FILE = "/database.properties";
+    private static final String POSTGRESQL_DRIVER_CLASS = "org.postgresql.Driver";
 
     private static DatabaseManager instance;
     private final String dbUrl;
@@ -39,7 +40,7 @@ public class DatabaseManager {
                 throw new RuntimeException("Missing required database properties in " + PROPERTIES_FILE);
             }
 
-            Class.forName("org.postgresql.Driver");
+            Class.forName(POSTGRESQL_DRIVER_CLASS);
             LOGGER.info("PostgreSQL JDBC Driver registered successfully");
 
         } catch (IOException | ClassNotFoundException e) {
