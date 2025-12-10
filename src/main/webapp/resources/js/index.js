@@ -83,6 +83,8 @@ function submitForm(actualX, actualY) {
     const formattedX = Math.round(parseFloat(actualX) / X_STEP_SIZE) * X_STEP_SIZE;
     const formattedY = parseFloat(actualY).toFixed(2);
 
+    displayPoint.x = formattedX;
+
     setXValue(formattedX);
     setYValue(formattedY);
 
