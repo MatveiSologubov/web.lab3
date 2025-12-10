@@ -39,28 +39,30 @@
         <div class="page-container">
             <div class="content-grid">
                 <div class="graph-container">
-                    <div class="panel">
-                        <div class="panel-header">
-                            <h2><i class="fas fa-project-diagram"></i>GRAPH</h2>
-                            <div class="panel-controls">
-                                <button id="focus-canvas" class="panel-btn" title="Focus Canvas (F)">
-                                    <i class="fas fa-bullseye"></i>
-                                </button>
-                                <button id="reset-view" class="panel-btn" title="Reset View (0)">
-                                    <i class="fas fa-crosshairs"></i>
-                                </button>
-                                <button id="zoom-in" class="panel-btn" title="Zoom In (+)">
-                                    <i class="fas fa-search-plus"></i>
-                                </button>
-                                <button id="zoom-out" class="panel-btn" title="Zoom Out (-)">
-                                    <i class="fas fa-search-minus"></i>
-                                </button>
+                    <h:form id="graphForm">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2><i class="fas fa-project-diagram"></i>GRAPH</h2>
+                                <div class="panel-controls">
+                                    <button id="focus-canvas" class="panel-btn" title="Focus Canvas (F)">
+                                        <i class="fas fa-bullseye"></i>
+                                    </button>
+                                    <button id="reset-view" class="panel-btn" title="Reset View (0)">
+                                        <i class="fas fa-crosshairs"></i>
+                                    </button>
+                                    <button id="zoom-in" class="panel-btn" title="Zoom In (+)">
+                                        <i class="fas fa-search-plus"></i>
+                                    </button>
+                                    <button id="zoom-out" class="panel-btn" title="Zoom Out (-)">
+                                        <i class="fas fa-search-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="panel-content graph-content">
+                                <canvas id="canvas" width="500" height="500" tabindex="0"></canvas>
                             </div>
                         </div>
-                        <div class="panel-content graph-content">
-                            <canvas id="canvas" width="500" height="500" tabindex="0"></canvas>
-                        </div>
-                    </div>
+                    </h:form>
                 </div>
 
                 <div class="control-container">
@@ -134,56 +136,61 @@
                         <div class="panel-header">
                             <h2><i class="fas fa-database"></i>RESULTS</h2>
                             <div class="panel-controls">
-                                <p:commandButton value="CLEAR"
-                                                 action="#{resultsBean.clearResults}"
-                                                 styleClass="terminal-btn secondary"
-                                                 update="resultsTable"
-                                                 immediate="true"
-                                                 oncomplete="if (window.updatePointsData) window.updatePointsData();"/>
+                                <h:form id="clearForm" prependId="false">
+                                    <p:commandButton value="CLEAR"
+                                                     action="#{resultsBean.clearResults}"
+                                                     styleClass="terminal-btn secondary"
+                                                     update="resultsTable"
+                                                     process="@this"
+                                                     immediate="true"
+                                                     oncomplete="if (window.updatePointsData) window.updatePointsData();"/>
+                                </h:form>
                             </div>
                         </div>
                         <div class="panel-content">
-                            <div class="data-table-container">
-                                <h:dataTable id="resultsTable"
-                                             value="#{resultsBean.results}"
-                                             var="point"
-                                             styleClass="data-table"
-                                             rowClasses="odd-row, even-row">
-                                    <h:column>
-                                        <f:facet name="header">X</f:facet>
-                                        <h:outputText value="#{point.x}">
-                                            <f:convertNumber maxFractionDigits="2"/>
-                                        </h:outputText>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">Y</f:facet>
-                                        <h:outputText value="#{point.y}">
-                                            <f:convertNumber maxFractionDigits="2"/>
-                                        </h:outputText>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">R</f:facet>
-                                        <h:outputText value="#{point.r}">
-                                            <f:convertNumber maxFractionDigits="2"/>
-                                        </h:outputText>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">RESULT</f:facet>
-                                        <h:outputText value="#{point.hit ? 'HIT' : 'MISS'}"
-                                                      styleClass="#{point.hit ? 'hit' : 'miss'}"/>
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">EXECUTION TIME</f:facet>
-                                        <h:outputText value="#{point.processTimeInMs}">
-                                            <f:convertNumber maxFractionDigits="2"/>
-                                        </h:outputText> ms
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">REQUEST TIME</f:facet>
-                                        <h:outputText value="#{point.requestTime}"/>
-                                    </h:column>
-                                </h:dataTable>
-                            </div>
+                            <h:form id="resultsForm" prependId="false">
+                                <div class="data-table-container">
+                                    <h:dataTable id="resultsTable"
+                                                 value="#{resultsBean.results}"
+                                                 var="point"
+                                                 styleClass="data-table"
+                                                 rowClasses="odd-row, even-row">
+                                        <h:column>
+                                            <f:facet name="header">X</f:facet>
+                                            <h:outputText value="#{point.x}">
+                                                <f:convertNumber maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Y</f:facet>
+                                            <h:outputText value="#{point.y}">
+                                                <f:convertNumber maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">R</f:facet>
+                                            <h:outputText value="#{point.r}">
+                                                <f:convertNumber maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">RESULT</f:facet>
+                                            <h:outputText value="#{point.hit ? 'HIT' : 'MISS'}"
+                                                          styleClass="#{point.hit ? 'hit' : 'miss'}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">EXECUTION TIME</f:facet>
+                                            <h:outputText value="#{point.processTimeInMs}">
+                                                <f:convertNumber maxFractionDigits="2"/>
+                                            </h:outputText> ms
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">REQUEST TIME</f:facet>
+                                            <h:outputText value="#{point.requestTime}"/>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div>
+                            </h:form>
                         </div>
                         <div class="panel-footer">
                             <h:link outcome="start" styleClass="terminal-btn secondary">
