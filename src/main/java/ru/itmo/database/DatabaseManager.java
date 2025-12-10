@@ -19,22 +19,11 @@ public class DatabaseManager {
     private static final String PROPERTIES_FILE = "/database.properties";
 
     private static DatabaseManager instance;
-    private String dbUrl;
-    private String dbUser;
-    private String dbPassword;
+    private final String dbUrl;
+    private final String dbUser;
+    private final String dbPassword;
 
     private DatabaseManager() {
-        initialize();
-    }
-
-    public static synchronized DatabaseManager getInstance() {
-        if (instance == null) {
-            instance = new DatabaseManager();
-        }
-        return instance;
-    }
-
-    private void initialize() {
         Properties properties = new Properties();
         try (InputStream input = DatabaseManager.class.getResourceAsStream(PROPERTIES_FILE)) {
             if (input == null) {
@@ -56,6 +45,13 @@ public class DatabaseManager {
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Failed to initialize database configuration", e);
         }
+    }
+
+    public static synchronized DatabaseManager getInstance() {
+        if (instance == null) {
+            instance = new DatabaseManager();
+        }
+        return instance;
     }
 
     public Connection getConnection() throws SQLException {
