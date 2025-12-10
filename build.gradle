@@ -30,6 +30,10 @@ war {
     from 'src/main/webapp'
 }
 
-application {
-    mainClass = 'com.example.Main'
+tasks.register('deployWar', Exec) {
+    group = 'application'
+    description = 'Run the built JAR file'
+
+    dependsOn war
+    commandLine '/bin/bash', './deploy.sh'
 }
