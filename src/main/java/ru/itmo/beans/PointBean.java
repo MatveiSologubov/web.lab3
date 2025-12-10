@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.models.Point;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.logging.Logger;
 
 @Named("pointBean")
@@ -54,7 +56,7 @@ public class PointBean {
     private ResultsBean resultsBean;
 
     public void checkPoint() {
-        long startTime = System.nanoTime();
+        Instant startTime = Instant.now();
 
         try {
             if (x == null || y == null || r == null) {
@@ -69,8 +71,10 @@ public class PointBean {
 
             hit = isHit(x, y, r);
 
-            long endTime = System.nanoTime();
-            processTimeInMs = (endTime - startTime) / 1_000_000f;
+            Instant processEndTime = Instant.now();
+            long processTime = ChronoUnit.NANOS.between(startTime, processEndTime);
+            float processTimeInMs = processTime / 1_000_000f;
+
             requestTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             Point point = new Point(x, y, r, hit, processTimeInMs, requestTime);
