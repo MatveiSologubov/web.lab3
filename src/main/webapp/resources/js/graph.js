@@ -135,12 +135,20 @@ function drawArrows(yAxisCanvasX, xAxisCanvasY) {
 }
 
 function drawGrid(rValue) {
+    if (!rValue || rValue <= 0) {
+        return;
+    }
+
     context.strokeStyle = GRAPH_GRID;
     context.lineWidth = 0.5;
     context.setLineDash([2, 4]);
 
     const gridStep = rValue / GRID_DIVISIONS_PER_R;
     const gridSize = GRID_SIZE_FACTOR * rValue;
+
+    if (gridSize <= 0 || gridStep <= 0) {
+        return;
+    }
 
     for (let x = -gridSize; x <= gridSize; x += gridStep) {
         const start = graphToCanvas(x, -gridSize);
