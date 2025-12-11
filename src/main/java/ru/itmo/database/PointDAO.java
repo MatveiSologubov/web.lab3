@@ -29,7 +29,7 @@ public class PointDAO {
             LIMIT ?
             """;
 
-    private static final String DELETE_ALL_SQL = "DELETE FROM points";
+    private static final String DELETE_ALL_SQL = "TRUNCATE points";
 
     public void save(Point point) {
         try (Connection connection = DatabaseManager.getInstance().getConnection();
